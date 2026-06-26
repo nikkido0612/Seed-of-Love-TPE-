@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>立即報名｜家族系統排列 with Praful・台北 2026</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Noto+Sans+TC:wght@300;400;500&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    :root {
+      --cosmos:  #4a4640;
+      --cosmos2: #58534b;
+      --navy:    #2b2823;
+      --blue:    #b8923f;
+      --blue-lt: #e9cb73;
+      --white:   #ffffff;
+      --off:     #f1f0e7;
+      --text:    #3a382f;
+      --light:   #e6e1d2;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Montserrat', 'Noto Sans TC', sans-serif;
+      font-weight: 300;
+      color: var(--text);
+      background: var(--white);
+      line-height: 1.9;
+      font-size: 16px;
+      margin: 0;
+    }
+
+    @keyframes twinkle  { 0%,100% { opacity:.7; } 50% { opacity:1; } }
+    @keyframes twinkle2 { 0%,100% { opacity:.5; } 50% { opacity:.95; } }
+    @keyframes twinkle3 { 0%,100% { opacity:.4; } 50% { opacity:.85; } }
+    @keyframes driftGlow { 0%,100% { opacity:.55; } 50% { opacity:.85; } }
+
+    .star-field { position: relative; overflow: hidden; background: linear-gradient(155deg, #3d3a35 0%, #45413a 30%, #4f4a41 60%, #5a5449 100%); }
+    .star-field::before {
+      content: ''; position: absolute; inset: -15%; pointer-events: none;
+      background-image:
+        radial-gradient(0.6px 0.6px at 12% 18%, rgba(255,255,255,.7) 0%, transparent 100%),
+        radial-gradient(0.6px 0.6px at 47% 72%, rgba(255,255,255,.55) 0%, transparent 100%),
+        radial-gradient(0.6px 0.6px at 78% 33%, rgba(229,201,115,.65) 0%, transparent 100%),
+        radial-gradient(0.6px 0.6px at 25% 88%, rgba(255,255,255,.5) 0%, transparent 100%);
+      background-size: 150px 165px;
+      animation: twinkle3 7s ease-in-out infinite;
+      opacity: .75;
+    }
+    .star-field::after {
+      content: ''; position: absolute; inset: -15%; pointer-events: none;
+      background-image:
+        radial-gradient(1px 1px at 20% 24%, rgba(255,255,255,.85) 0%, transparent 100%),
+        radial-gradient(1px 1px at 62% 58%, rgba(255,255,255,.7)  0%, transparent 100%),
+        radial-gradient(1px 1px at 85% 18%, rgba(229,201,115,.8)  0%, transparent 100%),
+        radial-gradient(1px 1px at 38% 82%, rgba(255,255,255,.65) 0%, transparent 100%);
+      background-size: 220px 235px;
+      background-position: 60px 90px;
+      animation: twinkle 5.5s ease-in-out infinite;
+      animation-delay: 1.5s;
+      opacity: .85;
+    }
+    .star-bright {
+      position: absolute; inset: -15%; pointer-events: none;
+      background-image:
+        radial-gradient(1.6px 1.6px at 28% 40%, #fff 0%, rgba(255,255,255,.4) 60%, transparent 100%),
+        radial-gradient(1.6px 1.6px at 72% 70%, rgba(229,201,115,1) 0%, rgba(229,201,115,.3) 60%, transparent 100%);
+      background-size: 360px 360px;
+      background-position: 100px 40px;
+      animation: twinkle2 8s ease-in-out infinite;
+      animation-delay: 3s;
+      opacity: .8;
+    }
+    .star-milkyway {
+      position: absolute; inset: -40%; pointer-events: none;
+      background: radial-gradient(ellipse 45% 130% at 50% 50%, rgba(233,203,115,.18) 0%, rgba(184,146,63,.08) 40%, transparent 72%);
+      transform: rotate(28deg); filter: blur(8px);
+      animation: driftGlow 10s ease-in-out infinite;
+    }
+
+    .sh { font-weight: 300; font-size: clamp(1.3rem, 3vw, 1.7rem); letter-spacing: .08em; text-transform: uppercase; color: var(--navy); }
+    .sh-line { display: flex; align-items: center; gap: 8px; width: 100px; margin-top: 12px; }
+    .sh-line::before, .sh-line::after { content: ''; flex: 1; height: 1px; background: linear-gradient(to right, transparent, var(--blue)); }
+    .sh-line::after { background: linear-gradient(to left, transparent, var(--blue)); }
+    .sh-line-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--blue); flex-shrink: 0; }
+
+    .btn { font-family: 'Montserrat',sans-serif; font-weight:500; letter-spacing:.12em; text-transform:uppercase; font-size:.72rem; border-radius:2px; transition: background .2s, border-color .2s, color .2s, transform .15s; display:inline-block; cursor:pointer; border:none; }
+    .btn:hover { transform: translateY(-1px); }
+    .btn-blue   { background: var(--blue); color:#2b2410; }
+    .btn-blue:hover { background: #9c7a30; }
+    .btn-blue:disabled { opacity:.5; cursor:not-allowed; transform:none; }
+    .btn-ow     { border:1.5px solid rgba(255,255,255,.5); color:#fff; background:transparent; }
+    .btn-ow:hover { border-color:#fff; }
+
+    .field-label { display:block; font-size:.85rem; color:var(--navy); margin-bottom:.5rem; font-weight:500; }
+    .field-input {
+      width:100%; padding:.7rem .9rem; font-size:.95rem; font-family:inherit;
+      border:1px solid var(--light); border-radius:6px; background:#fff; color:var(--text);
+      transition: border-color .2s;
+    }
+    .field-input:focus { outline:none; border-color:var(--blue); }
+    .radio-row, .check-row { display:flex; align-items:flex-start; gap:.6rem; padding:.5rem 0; cursor:pointer; }
+    .radio-row input, .check-row input { margin-top:.3rem; accent-color: var(--blue); width:16px; height:16px; flex-shrink:0; }
+    .field-block { margin-bottom: 2rem; }
+    .policy-box {
+      background: var(--off); border:1px solid var(--light); border-radius:10px;
+      padding:1.5rem; font-size:.88rem; color:var(--text); line-height:1.85;
+      max-height:260px; overflow-y:auto; white-space:pre-line; margin-bottom:1rem;
+    }
+    .info-card { background: var(--off); border:1px solid var(--light); border-radius:10px; padding:1.5rem; }
+  </style>
+</head>
+<body>
+
+<header id="nav" style="background:var(--cosmos)" class="px-6 py-4">
+  <div class="max-w-3xl mx-auto flex items-center justify-between">
+    <a href="index.html" class="font-medium tracking-widest text-sm" style="color:var(--blue-lt)">愛的源頭</a>
+    <a href="index.html" class="text-xs tracking-widest uppercase hover:opacity-70 transition" style="color:var(--blue-lt)">← 回到活動頁</a>
+  </div>
+</header>
+
+<!-- ══ HERO ══ -->
+<section class="star-field pt-16 pb-16 px-6 text-center">
+  <span class="star-bright"></span>
+  <span class="star-milkyway"></span>
+  <div class="max-w-xl mx-auto relative">
+    <p class="text-xs tracking-[.3em] uppercase mb-4" style="color:var(--blue-lt)">台北・2026 年 9 月</p>
+    <h1 class="sh mb-2" style="color:#fff; font-size:clamp(1.6rem,4vw,2.2rem)">家族系統排列分享會・報名表</h1>
+    <p class="text-sm mb-2" style="color:rgba(255,255,255,.75)">with Praful Saracino</p>
+    <span class="sh-line mx-auto"><span class="sh-line-dot" style="background:var(--blue-lt)"></span></span>
+  </div>
+</section>
+
+<!-- ══ WORKSHOP INFO ══ -->
+<section class="py-16 px-6" style="background:var(--off)">
+  <div class="max-w-xl mx-auto">
+    <h2 class="sh mb-2">分享會資訊</h2>
+    <span class="sh-line mb-8"><span class="sh-line-dot"></span></span>
+    <div class="info-card space-y-3 text-sm leading-relaxed">
+      <p>日期：9月2日（週三）– 9月6日（週日）</p>
+      <p>地點：兆基文教大樓・台北市松山區南京東路四段120巷11號5樓</p>
+    </div>
+  </div>
+</section>
+
+<!-- ══ FORM ══ -->
+<section class="py-16 px-6" style="background:#fff">
+  <div class="max-w-xl mx-auto">
+    <h2 class="sh mb-2">個人資料</h2>
+    <span class="sh-line mb-10"><span class="sh-line-dot"></span></span>
+
+    <form id="signupForm" name="signup" data-netlify="true" netlify-honeypot="bot-field">
+      <input type="hidden" name="form-name" value="signup">
+      <p style="display:none"><label>不要填寫這格 <input name="bot-field"></label></p>
+      <div class="field-block">
+        <label class="field-label">中文姓名 *</label>
+        <input class="field-input" type="text" name="中文姓名" required>
+      </div>
+      <div class="field-block">
+        <label class="field-label">英文習慣用名（非護照）</label>
+        <input class="field-input" type="text" name="英文習慣用名">
+      </div>
+      <div class="field-block">
+        <label class="field-label">手機號碼（WhatsApp） *</label>
+        <input class="field-input" type="tel" name="手機號碼" required>
+      </div>
+      <div class="field-block">
+        <label class="field-label">LINE 帳號 *</label>
+        <input class="field-input" type="text" name="LINE帳號" required>
+      </div>
+      <div class="field-block">
+        <label class="field-label">Email *</label>
+        <input class="field-input" type="email" name="Email" required>
+      </div>
+
+      <div class="field-block">
+        <label class="field-label">生理性別 *</label>
+        <label class="radio-row"><input type="radio" name="gender" value="男" required><span>男</span></label>
+        <label class="radio-row"><input type="radio" name="gender" value="女"><span>女</span></label>
+      </div>
+
+      <div class="field-block">
+        <label class="field-label">你的推薦人是誰？ *</label>
+        <input class="field-input" type="text" name="推薦人" placeholder="例：Jennie 侯君妮" required>
+      </div>
+
+      <h2 class="sh mb-2 mt-14">學習經歷</h2>
+      <span class="sh-line mb-8"><span class="sh-line-dot"></span></span>
+
+      <div class="field-block">
+        <label class="field-label">有上過家族系統排列分享會或訓練課嗎？ *</label>
+        <label class="radio-row"><input type="radio" name="hasExperience" value="是" required><span>是</span></label>
+        <label class="radio-row"><input type="radio" name="hasExperience" value="否"><span>否</span></label>
+      </div>
+      <div class="field-block">
+        <label class="field-label">曾經上過哪些自我成長／療癒／身心靈的課程？</label>
+        <textarea class="field-input" name="曾上過的課程" rows="3"></textarea>
+      </div>
+
+      <h2 class="sh mb-2 mt-14">課程前聲明書</h2>
+      <span class="sh-line mb-6"><span class="sh-line-dot"></span></span>
+      <div class="policy-box">我了解並不能診斷疾病或疾病，也無法使用任何藥物治療。
+
+我了解分享會中的「家族系統排列」並不能替代醫療服務，因此如有需要我應該與我的主要護理醫師或相關機構諮詢可能出現的任何狀況。
+
+如學員有以下疾病或醫療情況，不建議以「家族排列」為其療癒工具，並誠實、清晰的讓分享會引導者知道我的真實狀況。我確定自己沒有嚴重的氣喘、心臟病、精神疾病、癲癇或癲癇病史，嚴重的身體受傷或嚴重的糖尿病。我也沒有酒精或毒品上癮症。
+
+以下勾選【同意】即表示我確認有執照的醫生已驗證我的健康和身體狀況能夠參加分享會，而此課程是由我本人決定參加，並承諾自行承擔風險。</div>
+      <label class="check-row field-block">
+        <input type="checkbox" name="同意健康聲明" required>
+        <span>我同意以上聲明 *</span>
+      </label>
+
+      <h2 class="sh mb-2 mt-14">退費條款</h2>
+      <span class="sh-line mb-6"><span class="sh-line-dot"></span></span>
+      <div class="policy-box">請詳細閱讀以下學員權利：
+感謝您報名本分享會。為維護課程品質及保障雙方權益，本課程之退費與轉班事宜，將依據以下規範辦理。
+
+1. 退費標準（按實際支付金額比例退還）：
+開課前 30 日（含）以前：退還 95%
+開課前 7 日至 29 日：退還 80%
+開課前 1 日至 7 日：退還 70%
+開課當日等同已開課，但未逾全期 1/3（第 2 天中午前）：退還 50%
+已開課且逾全期 1/3（第 2 天下午起）：恕不接受退費
+
+2. 行政與轉班特別說明：
+上述退費百分比已內含 10% 之金流與場地行政作業費
+申請退費若需跨行匯款，其 30 元匯款手續費由學員負擔
+若因不可抗力因素（如天災、法定傳染病）由主辦方取消課程，將全額退費
+學員可於開課 7 日前申請「名額轉讓（限乙次）」，一旦轉讓成功後恕不辦理退費</div>
+      <label class="check-row">
+        <input type="checkbox" name="同意退費條款" required>
+        <span>我已詳細閱讀並同意上述「退費與課程異動規範」。我了解本分享會相關場地與行政成本已預先支出，若因個人因素申請退費，將嚴格執行上述比例退款，且不得有異議。 *</span>
+      </label>
+      <label class="check-row field-block">
+        <input type="checkbox" name="確認時間地點" required>
+        <span>我已確認本課程之時間與地點，並清楚課程進行方式。 *</span>
+      </label>
+
+      <div class="mt-10 text-center">
+        <button type="submit" id="submitBtn" class="btn btn-blue px-12 py-4">提交報名表</button>
+        <p id="errMsg" class="text-xs mt-4" style="color:#b54545; display:none">請完整填寫所有必填欄位（標示 *）後再送出。</p>
+      </div>
+    </form>
+
+    <div id="thanksBox" style="display:none" class="text-center py-10">
+      <p class="sh mb-4" style="font-size:1.3rem">報名表已送出 🌿</p>
+      <p class="text-sm leading-loose mb-8" style="color:var(--text)">感謝你的報名！請主動透過 LINE 或 WhatsApp 與我們的工作人員聯繫，確認名額，報名才算成立。</p>
+      <div class="info-card text-sm text-left max-w-sm mx-auto space-y-2">
+        <p>💎 Jennie 侯君妮　LINE：jenniecnho　WhatsApp：+886-988-817-609</p>
+        <p>💎 Connie 蔡亞亭　LINE：connie216　WhatsApp：+886-988-255-964</p>
+      </div>
+      <a href="index.html" class="btn btn-blue px-10 py-3.5 mt-10">回到活動頁</a>
+    </div>
+  </div>
+</section>
+
+<!-- ══ CONTACT INFO ══ -->
+<section class="py-16 px-6" style="background:var(--off)">
+  <div class="max-w-xl mx-auto">
+    <h2 class="sh mb-2">報名方式</h2>
+    <span class="sh-line mb-8"><span class="sh-line-dot"></span></span>
+    <div class="info-card text-sm leading-relaxed space-y-2">
+      <p>請在提交報名表後，主動與工作人員聯繫，確認名額。</p>
+      <p>💎 Jennie 侯君妮　LINE：jenniecnho　WhatsApp：+886-988-817-609</p>
+      <p>💎 Connie 蔡亞亭　LINE：connie216　WhatsApp：+886-988-255-964</p>
+    </div>
+  </div>
+</section>
+
+<footer class="py-10 px-6 text-center" style="background:var(--cosmos)">
+  <p class="text-xs" style="color:var(--blue-lt)">© 2026 愛的源頭・家族系統排列分享會</p>
+</footer>
+
+<script>
+  function encodeForm(data) {
+    return Object.keys(data).map(function(k){
+      return encodeURIComponent(k) + '=' + encodeURIComponent(data[k]);
+    }).join('&');
+  }
+
+  document.getElementById('signupForm').addEventListener('submit', function(e){
+    e.preventDefault();
+    const f = e.target;
+    const gender = f.querySelector('input[name="gender"]:checked');
+    const hasExperience = f.querySelector('input[name="hasExperience"]:checked');
+
+    if (!f.checkValidity() || !gender || !hasExperience) {
+      document.getElementById('errMsg').style.display = 'block';
+      f.reportValidity();
+      return;
+    }
+    document.getElementById('errMsg').style.display = 'none';
+
+    document.getElementById('submitBtn').disabled = true;
+    document.getElementById('submitBtn').textContent = '送出中…';
+
+    const formData = new FormData(f);
+    const data = {};
+    formData.forEach(function(value, key){ data[key] = value; });
+
+    fetch('/', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: encodeForm(data)
+    })
+    .then(function(){
+      document.getElementById('signupForm').style.display = 'none';
+      document.getElementById('thanksBox').style.display = 'block';
+      window.scrollTo({top: document.getElementById('thanksBox').offsetTop - 100, behavior:'smooth'});
+    })
+    .catch(function(){
+      document.getElementById('submitBtn').disabled = false;
+      document.getElementById('submitBtn').textContent = '提交報名表';
+      document.getElementById('errMsg').textContent = '送出失敗，請檢查網路連線後再試一次，或直接透過 LINE 聯絡工作人員。';
+      document.getElementById('errMsg').style.display = 'block';
+    });
+  });
+</script>
+
+</body>
+</html>

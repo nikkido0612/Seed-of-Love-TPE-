@@ -1,0 +1,904 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>家族系統排列 with Praful｜台北 2026</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Noto+Serif+TC:wght@300;400&family=Noto+Sans+TC:wght@300;400;500&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    :root {
+      --cosmos:  #4a4640;
+      --cosmos2: #58534b;
+      --navy:    #2b2823;
+      --blue:    #b8923f;
+      --blue-lt: #e9cb73;
+      --white:   #ffffff;
+      --off:     #f1f0e7;
+      --text:    #3a382f;
+      --light:   #e6e1d2;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Montserrat', 'Noto Sans TC', sans-serif;
+      font-weight: 300;
+      color: var(--text);
+      background: var(--white);
+      line-height: 1.9;
+      font-size: 16px;
+    }
+
+    /* Global text size bumps */
+    p, li { font-size: 1.05rem; }
+    .text-xs  { font-size: 0.9rem !important; }
+    .text-sm  { font-size: 1.05rem !important; }
+    .text-base{ font-size: 1.15rem !important; }
+
+    /* Stars — Milky Way style, tiled for density & performance */
+    @keyframes twinkle  { 0%,100% { opacity:.7; } 50% { opacity:1; } }
+    @keyframes twinkle2 { 0%,100% { opacity:.5; } 50% { opacity:.95; } }
+    @keyframes twinkle3 { 0%,100% { opacity:.4; } 50% { opacity:.85; } }
+    @keyframes driftGlow { 0%,100% { opacity:.55; } 50% { opacity:.85; } }
+
+    .star-field {
+      position: relative;
+      overflow: hidden;
+      background: linear-gradient(155deg, #3d3a35 0%, #45413a 30%, #4f4a41 60%, #5a5449 100%);
+    }
+
+    /* fine dust — tiny, sparse, dim */
+    .star-field::before {
+      content: '';
+      position: absolute; inset: -15%;
+      pointer-events: none;
+      background-image:
+        radial-gradient(0.6px 0.6px at 12% 18%, rgba(255,255,255,.7) 0%, transparent 100%),
+        radial-gradient(0.6px 0.6px at 47% 72%, rgba(255,255,255,.55) 0%, transparent 100%),
+        radial-gradient(0.6px 0.6px at 78% 33%, rgba(229,201,115,.65) 0%, transparent 100%),
+        radial-gradient(0.6px 0.6px at 25% 88%, rgba(255,255,255,.5) 0%, transparent 100%);
+      background-size: 150px 165px;
+      animation: twinkle3 7s ease-in-out infinite;
+      opacity: .75;
+    }
+    /* small stars — sparser, larger spacing */
+    .star-field::after {
+      content: '';
+      position: absolute; inset: -15%;
+      pointer-events: none;
+      background-image:
+        radial-gradient(1px 1px at 20% 24%, rgba(255,255,255,.85) 0%, transparent 100%),
+        radial-gradient(1px 1px at 62% 58%, rgba(255,255,255,.7)  0%, transparent 100%),
+        radial-gradient(1px 1px at 85% 18%, rgba(229,201,115,.8)  0%, transparent 100%),
+        radial-gradient(1px 1px at 38% 82%, rgba(255,255,255,.65) 0%, transparent 100%);
+      background-size: 220px 235px;
+      background-position: 60px 90px;
+      animation: twinkle 5.5s ease-in-out infinite;
+      animation-delay: 1.5s;
+      opacity: .85;
+    }
+    /* bright stars — very sparse, larger, glowing */
+    .star-bright {
+      position: absolute; inset: -15%; pointer-events: none;
+      background-image:
+        radial-gradient(1.6px 1.6px at 28% 40%, #fff 0%, rgba(255,255,255,.4) 60%, transparent 100%),
+        radial-gradient(1.6px 1.6px at 72% 70%, rgba(229,201,115,1) 0%, rgba(229,201,115,.3) 60%, transparent 100%);
+      background-size: 360px 360px;
+      background-position: 100px 40px;
+      animation: twinkle2 8s ease-in-out infinite;
+      animation-delay: 3s;
+      opacity: .8;
+    }
+    /* milky way glow band */
+    .star-milkyway {
+      position: absolute; inset: -40%; pointer-events: none;
+      background: radial-gradient(ellipse 45% 130% at 50% 50%, rgba(233,203,115,.18) 0%, rgba(184,146,63,.08) 40%, transparent 72%);
+      transform: rotate(28deg);
+      filter: blur(8px);
+      animation: driftGlow 10s ease-in-out infinite;
+    }
+
+    /* Nav */
+    #nav { background: var(--cosmos); transition: box-shadow .3s; }
+    #nav.scrolled { box-shadow: 0 2px 20px rgba(0,0,0,.4); }
+    #nav a, #nav span { color: var(--blue-lt) !important; }
+    #nav a:hover { color: #fff !important; }
+    #nav .btn-blue { color: #fff !important; }
+
+    /* Hero */
+    .hero {
+      background: linear-gradient(180deg, #faf6ea 0%, #f3ead2 55%, #ecdfb8 100%);
+    }
+    .hero.star-field::before,
+    .hero.star-field::after,
+    .hero .star-bright,
+    .hero .star-milkyway {
+      display: none;
+    }
+    .hero .btn-blue { background:#2b2410; color:#e9cb73; }
+    .hero .btn-blue:hover { background:#3a3015; }
+    .hero .btn-ob { border:1px solid #2b2410; color:#2b2410; }
+    .hero .btn-ob:hover { background:#2b2410; color:#e9cb73; }
+    .hero-bg {
+      display: block;
+      width: 380px; max-width: 80%;
+      margin: 0 auto;
+      filter: grayscale(100%);
+      -webkit-mask-image: linear-gradient(to bottom, black 60%, transparent 100%);
+      mask-image: linear-gradient(to bottom, black 60%, transparent 100%);
+    }
+
+    /* Section heading */
+    .sh {
+      font-weight: 300;
+      font-size: clamp(1.4rem, 3vw, 1.9rem);
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--navy);
+    }
+    .sh-line {
+      display: flex; align-items: center; gap: 8px;
+      width: 120px; margin-top: 14px;
+    }
+    .sh-line::before, .sh-line::after {
+      content: ''; flex: 1; height: 1px;
+      background: linear-gradient(to right, transparent, var(--blue));
+    }
+    .sh-line::after {
+      background: linear-gradient(to left, transparent, var(--blue));
+    }
+    .sh-line-dot {
+      width: 5px; height: 5px; border-radius: 50%;
+      background: var(--blue); flex-shrink: 0;
+    }
+
+    /* Countdown */
+    .cd-wrap {
+      background: rgba(255,255,255,.06);
+      border: 1px solid rgba(220,201,168,.25);
+      backdrop-filter: blur(10px);
+    }
+
+    /* Cards */
+    .card {
+      border: 1px solid var(--light);
+      background: var(--white);
+      transition: transform .2s, box-shadow .2s;
+    }
+    .card:hover { transform: translateY(-3px); box-shadow: 0 10px 32px rgba(184,151,106,.15); }
+    .card-top { border-top: 2px solid var(--blue); }
+    .card-featured { border: 1.5px solid var(--blue); }
+
+    /* Buttons */
+    .btn { font-family: 'Montserrat',sans-serif; font-weight:500; letter-spacing:.12em; text-transform:uppercase; font-size:.72rem; border-radius:2px; transition: background .2s, border-color .2s, color .2s, transform .15s; }
+    .btn:hover { transform: translateY(-1px); }
+    .btn-blue   { background: var(--blue); color:#fff; }
+    .btn-blue:hover { background: #9c7a30; }
+    .btn-ow     { border:1.5px solid rgba(255,255,255,.5); color:#fff; }
+    .btn-ow:hover { border-color:#fff; }
+    .btn-ob     { border:1px solid var(--blue); color:var(--blue); }
+    .btn-ob:hover { background:var(--blue); color:#fff; }
+
+    /* FAQ */
+    .faq-item { border-bottom: 1px solid var(--light); }
+    .faq-item summary { cursor:pointer; list-style:none; }
+    .faq-item summary::-webkit-details-marker { display:none; }
+    .faq-arrow { transition: transform .2s; }
+    .faq-item[open] .faq-arrow { transform: rotate(45deg); }
+
+    /* Quote */
+    .pull-quote {
+      border-left: 2px solid var(--blue);
+      padding-left: 1.5rem;
+      font-style: italic; font-weight: 300;
+      color: var(--navy); line-height: 1.9;
+    }
+
+    /* CTA dark section */
+    .cta-dark {
+      background: linear-gradient(160deg, var(--cosmos) 0%, #403c36 50%, var(--cosmos2) 100%);
+    }
+
+    /* Sticky */
+    #sticky { background: var(--cosmos); border-top: 1px solid rgba(220,201,168,.15); }
+
+    /* Info table */
+    .info-row { border-bottom: 1px solid var(--light); }
+    .info-row:last-child { border-bottom: none; }
+
+    /* Divider glow */
+    .cosmos-section {
+      background: linear-gradient(180deg, var(--cosmos2) 0%, #4d473f 100%);
+      color: rgba(253,250,246,.85);
+      position: relative;
+    }
+  </style>
+</head>
+<body>
+
+<!-- ══ NAV ══ -->
+<nav id="nav" class="fixed top-0 w-full z-50 bg-white">
+  <div class="max-w-5xl mx-auto px-6 py-4 flex items-center justify-between">
+    <span class="text-xs font-medium tracking-widest uppercase" style="color:var(--navy)">愛的源頭</span>
+    <div class="hidden md:flex gap-7 text-xs tracking-widest uppercase" style="color:var(--text)">
+      <a href="#about"       class="hover:opacity-60 transition">分享會</a>
+      <a href="#explore"     class="hover:opacity-60 transition">探索</a>
+      <a href="#principles"  class="hover:opacity-60 transition">三大法則</a>
+      <a href="#how"         class="hover:opacity-60 transition">如何進行</a>
+      <a href="#facilitator" class="hover:opacity-60 transition">Praful</a>
+      <a href="#testimonials" class="hover:opacity-60 transition">學員回饋</a>
+    </div>
+    <a href="signup.html" class="btn btn-blue px-5 py-2.5">立即報名</a>
+  </div>
+</nav>
+
+<!-- ══ HERO ══ -->
+<section class="hero star-field pt-28 pb-0 px-6 text-center overflow-hidden">
+  <span class="star-bright"></span>
+  <span class="star-milkyway"></span>
+
+  <!-- Photo banner with logo overlay -->
+  <div class="relative mb-10" style="margin:0 -1.5rem; overflow:hidden;">
+    <img src="hero-bg-bw.jpg" alt="" style="width:100%; height:560px; object-fit:cover; display:block;">
+    <div class="absolute inset-0" style="background:linear-gradient(180deg, rgba(0,0,0,.35) 0%, rgba(0,0,0,.45) 60%, rgba(0,0,0,.55) 100%);"></div>
+    <div class="absolute inset-0 flex flex-col items-center justify-center px-6">
+      <p class="tracking-[.3em] uppercase mb-6 mt-4" style="font-size:1rem;color:#e9cb73">台北・2026 年 9 月</p>
+      <div style="max-width:min(460px,80%); width:100%; text-align:center; color:#fff;">
+        <p style="font-family:Georgia,'Times New Roman',serif; font-style:italic; font-weight:400; font-size:clamp(2.4rem,8.5vw,4rem); letter-spacing:.03em; margin-bottom:.4rem; text-shadow:0 2px 18px rgba(0,0,0,.25);">Seeds <span style="font-style:normal; opacity:.85">of</span> Love</p>
+        <p style="font-size:clamp(1.3rem,4.5vw,1.9rem); letter-spacing:.1em; margin-bottom:.4rem;">愛的源頭</p>
+        <p style="font-size:clamp(.95rem,3vw,1.2rem); letter-spacing:.15em; opacity:.85;">家族系統排列 說明會</p>
+      </div>
+      <p class="font-light mt-6" style="font-size:1.15rem;letter-spacing:.12em;color:#fff">
+        with Praful Saracino
+      </p>
+    </div>
+  </div>
+
+  <!-- Text block -->
+  <div class="max-w-3xl mx-auto pb-10">
+
+
+    <!-- Three pillars -->
+    <div class="grid sm:grid-cols-3 gap-4 mb-10 mt-8 max-w-xl mx-auto">
+      <div class="py-5 px-4" style="background:rgba(0,0,0,0.35);border:1px solid rgba(255,255,255,.2);border-radius:14px">
+        <p class="font-semibold tracking-widest uppercase mb-2" style="font-size:1rem;color:#fff">探索</p>
+        <p class="font-light leading-relaxed" style="font-size:.9rem;color:#2b2410">你生命中隱藏的動力</p>
+      </div>
+      <div class="py-5 px-4" style="background:rgba(0,0,0,0.35);border:1px solid rgba(255,255,255,.2);border-radius:14px">
+        <p class="font-semibold tracking-widest uppercase mb-2" style="font-size:1rem;color:#fff">轉化</p>
+        <p class="font-light leading-relaxed text-center" style="font-size:.9rem;color:#2b2410">盲目的愛<br>有意識的愛</p>
+      </div>
+      <div class="py-5 px-4" style="background:rgba(0,0,0,0.35);border:1px solid rgba(255,255,255,.2);border-radius:14px">
+        <p class="font-semibold tracking-widest uppercase mb-2" style="font-size:1rem;color:#fff">培養</p>
+        <p class="font-light leading-relaxed" style="font-size:.9rem;color:#2b2410">關係中的自由與真實</p>
+      </div>
+    </div>
+
+    <div class="flex flex-col sm:flex-row gap-4 justify-center">
+      <a href="signup.html" class="btn btn-blue px-10 py-4">立即報名</a>
+      <a href="#about"   class="btn btn-ob  px-10 py-4">認識這場分享會</a>
+    </div>
+  </div>
+
+
+</section>
+
+<!-- Hero → Quote transition -->
+<div style="height:60px;background:linear-gradient(to bottom, #ecdfb8, var(--navy))"></div>
+
+<!-- ══ VIDEO 1 + QUOTE BANNER ══ -->
+<section style="background:var(--navy)" class="py-20 px-6 text-white">
+  <div class="max-w-4xl mx-auto grid md:grid-cols-2 gap-10 items-center">
+    <div class="mx-auto" style="max-width:336px;width:100%">
+      <div style="position:relative;padding-top:177.78%;border-radius:12px;overflow:hidden;box-shadow:0 8px 30px rgba(0,0,0,.35)">
+        <iframe src="https://www.youtube.com/embed/ozCp415WTq8"
+          style="position:absolute;top:0;left:0;width:100%;height:100%;border:0"
+          title="YouTube video"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          allowfullscreen></iframe>
+      </div>
+    </div>
+    <div class="text-center md:text-left" style="position:relative">
+      <div style="font-size:5rem;line-height:1;color:var(--blue);opacity:.25;font-family:Georgia,serif;user-select:none">"</div>
+      <p class="font-light italic leading-loose" style="font-size:clamp(1rem,2vw,1.2rem);color:rgba(255,255,255,.9);letter-spacing:.02em;position:relative;z-index:1;margin-top:-1.5rem">
+        原則就像種子，它們是鑰匙，幫助我們從無意識、盲目的方式，轉向更有意識、更成熟的愛與連結方式。
+      </p>
+      <p class="tracking-[.25em] uppercase mt-8 opacity-40" style="font-size:.75rem;position:relative;z-index:1">— Praful</p>
+    </div>
+  </div>
+</section>
+
+<!-- ══ WHAT IS THIS RETREAT ══ -->
+<section id="about" class="py-24 px-6" style="background:var(--white)">
+  <div class="max-w-2xl mx-auto">
+    <h2 class="sh mb-2">這場分享會在談什麼？</h2>
+    <span class="sh-line mb-10"><span class="sh-line-dot"></span></span>
+    <div class="space-y-5 text-sm leading-loose" style="color:var(--text)">
+      <p>從我們出生的那一刻起，關係便開始形塑我們生命的方向。無論是原生家庭、友誼，或親密伴侶關係，這些連結都深深影響著我們是誰，以及我們如何在世界中行動。</p>
+      <p>然而，許多人會發現自己不斷重複某些模式，讓自己感到卡住、疏離，或失去平衡。這場分享會將是一個機會，讓我們能夠：</p>
+    </div>
+    <!-- Row 1: 3 items -->
+    <div class="mt-10 grid grid-cols-1 md:grid-cols-3 text-center" style="max-width:900px;margin-left:auto;margin-right:auto;gap:2.5rem 3rem">
+      <div>
+        <p class="font-semibold mb-2" style="color:var(--blue)">看見隱藏模式</p>
+        <p style="color:var(--text);font-size:.92rem">將無意識的家族動力帶入覺察</p>
+      </div>
+      <div>
+        <p class="font-semibold mb-2" style="color:var(--blue)">恢復平衡與和諧</p>
+        <p style="color:var(--text);font-size:.92rem">以清晰與安定，重新校準關係的位置</p>
+      </div>
+      <div>
+        <p class="font-semibold mb-2" style="color:var(--blue)">深化自我覺察</p>
+        <p style="color:var(--text);font-size:.92rem">獲得情緒上的清明與內在力量</p>
+      </div>
+    </div>
+    <!-- Row 2: 2 items centered -->
+    <div class="mt-10 grid grid-cols-1 md:grid-cols-2 text-center max-w-lg mx-auto" style="gap:2.5rem 3rem">
+      <div>
+        <p class="font-semibold mb-2" style="color:var(--blue)">培養自由與真實</p>
+        <p style="color:var(--text)">超越限制性的舊模式，走向有意識的愛</p>
+      </div>
+      <div>
+        <p class="font-semibold mb-2" style="color:var(--blue)">療癒與重新連結</p>
+        <p style="color:var(--text)">面對未完成的情緒，並強化有意義的連結</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ CORE FAMILY ══ -->
+<section id="explore" class="py-24 px-6" style="background:var(--off)">
+  <div class="max-w-5xl mx-auto grid md:grid-cols-2 gap-12 items-center">
+    <div>
+      <p class="text-xs tracking-widest uppercase mb-2" style="color:var(--blue)">課程介紹：家族系統排列</p>
+      <h2 class="sh mb-2">核心家庭・我們的源頭</h2>
+      <span class="sh-line mb-10"><span class="sh-line-dot"></span></span>
+      <div class="space-y-5 leading-loose" style="color:var(--text)">
+        <p>在這五天裡，我們將深入探索原生家庭的良知，以及那些影響我們行為的無意識忠誠。</p>
+        <p>我們會看見，童年時期為了獲得愛、關注或接納而形成的模式與信念，如何限制我們活出一個真正與自身本質對齊的人生。</p>
+        <p>透過理解這些動力，我們將學習在家族系統中站回自己正確的位置，並獲得勇氣，跨越舊有模式，讓自己得以建立一種根植於自我覺察與成熟之愛的個人良知。</p>
+      </div>
+      <div class="mt-10">
+        <a href="https://line.me/ti/p/~jenniecnho" target="_blank" rel="noopener" class="btn btn-blue inline-block px-8 py-3">聯絡專人了解更多</a>
+      </div>
+    </div>
+    <img src="S__35291171.jpg" alt="家族系統排列分享會現場" style="display:block; width:100%; border-radius:10px; filter:grayscale(100%); box-shadow:0 12px 30px rgba(0,0,0,.12)">
+  </div>
+</section>
+
+<!-- ══ THREE PRINCIPLES ══ -->
+<section id="principles" class="py-24 px-6" style="background:var(--white)">
+  <div class="max-w-3xl mx-auto">
+    <div class="text-center mb-4">
+      <h2 class="sh">我們將探索什麼？</h2>
+      <span class="sh-line mx-auto mb-8"><span class="sh-line-dot"></span></span>
+      <p class="leading-loose max-w-3xl mx-auto" style="color:var(--text)">
+        愛的三大原則：通往有意識關係的道路。在這場分享會的核心，我們將與「愛的三大原則」<span style="white-space:nowrap">工作。</span><br>這些原則是引導關係轉化的重要力量，幫助我們從無意識的「盲目的愛」，走向以覺察與真實為基礎的「有意識（成熟）的愛」。
+      </p>
+    </div>
+    <div class="grid md:grid-cols-3 gap-6 mt-10">
+      <div class="card card-top p-8 text-center">
+        <img src="https://kajabi-storefronts-production.kajabi-cdn.com/kajabi-storefronts-production/file-uploads/themes/2159692248/settings_images/53c5a0c-a78b-d7d-4a7-a6a03dd31588_icon_fit.png" alt="歸屬" class="mx-auto mb-5" style="width:80px">
+        <h3 class="font-semibold mb-3" style="color:var(--navy)">歸屬</h3>
+        <p class="leading-loose" style="color:var(--text)">探索我們對被接納、被包含的渴望，如何在無意識中形塑我們的行為與情緒</p>
+      </div>
+      <div class="card card-top p-8 text-center">
+        <img src="https://kajabi-storefronts-production.kajabi-cdn.com/kajabi-storefronts-production/file-uploads/themes/2159692248/settings_images/72cd73-58ab-6b56-b874-6bdd4dbfa583_icon_family.png" alt="序位" class="mx-auto mb-5" style="width:80px">
+        <h3 class="font-semibold mb-3" style="color:var(--navy)">序位</h3>
+        <p class="leading-loose" style="color:var(--text)">透過尊重關係中的自然秩序，重新恢復平衡</p>
+      </div>
+      <div class="card card-top p-8 text-center">
+        <img src="https://kajabi-storefronts-production.kajabi-cdn.com/kajabi-storefronts-production/file-uploads/themes/2159692248/settings_images/a85630-ac6b-5600-d06c-bb15147e1b3_icon_medalion.png" alt="給予與接受" class="mx-auto mb-5" style="width:80px">
+        <h3 class="font-semibold mb-3" style="color:var(--navy)">給予與接受</h3>
+        <p class="leading-loose" style="color:var(--text)">重新連結愛的流動，創造更健康、更有支持性的關係</p>
+      </div>
+    </div>
+    <p class="mt-10 leading-loose text-center" style="color:var(--text)">
+      透過這些原則，我們將獲得工具，去面對內在與外在的衝突，並在日常生活中恢復清晰、和諧與自由。
+    </p>
+  </div>
+</section>
+
+<!-- ══ MATURE LOVE ══ -->
+<section class="py-20 px-6" style="background:var(--off)">
+  <div class="max-w-2xl mx-auto">
+    <h2 class="sh mb-1">活在成熟的愛中：</h2>
+    <h2 class="sh mb-2">關係裡的自由</h2>
+    <span class="sh-line mb-10"><span class="sh-line-dot"></span></span>
+    <div class="space-y-5 leading-loose" style="color:var(--text)">
+      <p>覺察，是轉化的入口。</p>
+      <p>當我們理解「盲目的愛」如何形塑我們的行動時，我們便開始走向一種更穩定、更有意識的存在方式——我們稱之為「成熟的愛」。</p>
+      <p>在這個更深層連結的空間裡，關係會變得更健康、更清楚，也更令人滿足。混亂逐漸消退，一種力量、喜悅與自由感會自然浮現。</p>
+      <p>我們將探索這些原則如何不只應用在親密關係中，也能應用於家庭連結、友誼、工作，甚至是我們與自己的關係。</p>
+    </div>
+  </div>
+</section>
+
+<!-- ══ DEEPER UNDERSTANDING ══ -->
+<section class="py-20 px-6" style="background:var(--white)">
+  <div class="max-w-2xl mx-auto">
+    <h2 class="sh mb-2">更深入理解「家族系統排列」</h2>
+    <span class="sh-line mb-10"><span class="sh-line-dot"></span></span>
+    <div class="space-y-5 leading-loose" style="color:var(--text)">
+      <p>「家族系統排列」能揭示那些隱藏在家族中的模式，而這些模式可能正在阻礙我們前進。</p>
+      <p>我們與家族系統之間，有一種深層的歸屬需求。為了父母的愛，孩子幾乎什麼都願意做。我們與父母、與家族系統的連結，甚至在出生之前就已經開始；我們誕生於一個延續了許多世代的家族之中。</p>
+      <p>這些無意識的模式，往往會阻止我們選擇真正讓自己感到圓滿的人生，也阻止我們向前走，活出自己真正熱愛的生命。</p>
+      <p>在這個團體中，我們將更深入地探索愛的三大原則——歸屬、序位、施與受的平衡，以及家族中隱藏的模式。每一個原則都會被說明，也會透過體驗被感受；參與者也將有機會探索自己的家族結構。</p>
+      <p>有意識地走過生命，具有極大的價值。當我們這樣做時，便能接觸到一股驚人的內在力量，以及深層的放鬆。</p>
+    </div>
+    <div class="mt-10 text-center">
+      <a href="signup.html" class="btn btn-blue px-8 py-3">立即報名</a>
+    </div>
+  </div>
+</section>
+
+<!-- ══ HOW DOES IT WORK ══ -->
+<section id="how" class="py-20 px-6" style="background:var(--off)">
+  <div class="max-w-2xl mx-auto">
+    <h2 class="sh mb-2">我也會進行自己的排列個案嗎？</h2>
+    <span class="sh-line mb-10"><span class="sh-line-dot"></span></span>
+    <div class="space-y-4 leading-loose" style="color:var(--text)">
+        <p>「家族系統排列」能帶來深刻的療癒，無論是在個人層面，或是在系統層面。</p>
+        <p>這樣的團體工作會讓每一位參與者受益：當一個人的故事被探索時，它也會同時為整個團體的集體療癒做出貢獻。</p>
+        <p>然而，並不是每一位參與者都一定會在分享會期間進行自己的個別排列。每一個排列都屬於整個團體，而透過這種集體性的經驗，參與者往往會從他人的排列中，獲得甚至比自己個案更深刻的洞見。</p>
+        <p>這樣的方式需要信任，也需要願意將個人的「我」交託給更大的集體智慧。團體工作為個人與集體系統帶來深層療癒，並創造一個充滿尊重、秩序與愛的環境。</p>
+    </div>
+  </div>
+</section>
+
+<!-- ══ SPEAKER ══ -->
+<section id="facilitator" class="py-20 px-6" style="background:var(--white)">
+  <div class="max-w-5xl mx-auto grid md:grid-cols-[360px_1fr] gap-12">
+    <div>
+      <img src="Praful.jpg" alt="Carlo Praful Saracino" style="display:block; width:100%; border-radius:10px; box-shadow:0 12px 30px rgba(0,0,0,.12); position:sticky; top:100px;">
+    </div>
+    <div>
+      <p class="text-xs font-semibold tracking-widest uppercase mb-2" style="color:var(--blue)">講師介紹</p>
+      <h2 class="sh mb-2">認識 Praful Saracino</h2>
+      <span class="sh-line mb-10"><span class="sh-line-dot"></span></span>
+
+      <h3 class="text-sm font-semibold tracking-widest uppercase mb-6" style="color:var(--navy)">有意識的成長與合一</h3>
+      <div class="space-y-5 leading-loose" style="color:var(--text)">
+        <p>我們的核心目的始終是支持人類意識的覺醒，並為一個更加合一的世界之演進做出貢獻。</p>
+        <p>帶著這份意圖，我們選擇向一些引導者敞開空間，他們的工作與我們所做之事的本質深深共鳴，也讓這些教導能夠觸及並支持更多人。</p>
+        <p>Praful 是即將加入我們的引導者之一。憑藉他豐富的經驗、真摯的臨在，以及對轉化堅定不移的投入，他的方式與我們的願景自然地相互呼應。</p>
+        <p>我們相信，這場分享會將會是一趟美麗而深刻的旅程，並帶著我們的社群所珍視的完整性、尊重，以及轉化的可能性。</p>
+        <p>這次合作也反映了我們的承諾：創造真實而有意義的體驗，並持續忠於引導我們走在這段共同旅程上的價值。</p>
+      </div>
+
+      <div class="mt-12 space-y-5 leading-loose" style="color:var(--text)">
+        <p>Praful 致力於喚醒人們的內在潛能，並以堅定的熱情、喜悅與承諾，支持個人的靈性成長。</p>
+        <p>他巧妙地融合了作為朋友、丈夫、父親、旅行者和靜心者的人生經歷，並結合了多種自我探索的方法於他旅行世界各地的分享會中。</p>
+        <p class="font-semibold mt-6 mb-1" style="color:var(--navy)">【專業培訓經歷】</p>
+        <ul class="list-disc pl-5 space-y-1">
+          <li>生活教練 Life Coach</li>
+          <li>諮商 Counselling</li>
+          <li>身體經驗創傷療法 Somatic Experience®</li>
+          <li>伯特・海靈格的家族系統排列 Family and Systemic Constellations with Bert Hellinger</li>
+          <li>原始療法 Primal Therapy</li>
+          <li>呼吸療法 Breathwork</li>
+          <li>神經語言程式學 NLP</li>
+          <li>生物能量療法 Bioenergetic</li>
+          <li>身體工作治療 Bodywork</li>
+          <li>靜心訓練治療 Meditation</li>
+        </ul>
+        <p>作為 S.I.A.F. 認證培訓師與整體諮商師，Praful 是「生命實驗室」（Laboratory of Life）的創辦人。這是一個以家族與系統排列為核心的轉化培訓計畫。</p>
+        <p>他的工作，是一份真摯的邀請，邀請人們去探索、療癒，並擁抱一種更真實、更平衡，也更深刻連結的生命。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ TESTIMONIALS ══ -->
+<style>
+  .testi-track {
+    display: flex;
+    gap: 1.25rem;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    padding-bottom: 1rem;
+    -webkit-overflow-scrolling: touch;
+  }
+  .testi-card {
+    flex: 0 0 auto;
+    width: 340px;
+    scroll-snap-align: start;
+    background: var(--white);
+    border: 1px solid var(--light);
+    border-radius: 10px;
+    padding: 2rem 1.75rem;
+    max-height: 520px;
+    overflow-y: auto;
+  }
+  .testi-card p.testi-quote {
+    font-size: .92rem;
+    line-height: 2;
+    letter-spacing: .02em;
+  }
+  .testi-highlight {
+    font-size: 1rem;
+    font-weight: 600;
+    font-style: italic;
+    line-height: 1.7;
+    color: var(--navy);
+    padding-bottom: 1.25rem;
+    margin-bottom: 1.25rem;
+    border-bottom: 1px solid var(--light);
+  }
+  @media (min-width: 768px) {
+    .testi-card { width: 380px; }
+  }
+  .testi-track::-webkit-scrollbar { height: 6px; }
+  .testi-track::-webkit-scrollbar-thumb { background: var(--light); border-radius: 3px; }
+</style>
+<section id="testimonials" class="py-24 px-6" style="background:var(--off)">
+  <div class="max-w-6xl mx-auto">
+    <p class="text-xs font-semibold tracking-widest uppercase mb-2 text-center" style="color:var(--blue)">學員回饋</p>
+    <h2 class="sh mb-2 text-center">來自世界各地的真實心聲</h2>
+    <span class="sh-line mx-auto mb-4"><span class="sh-line-dot"></span></span>
+    <p class="text-center mb-10" style="font-size:.95rem;color:var(--navy);opacity:.85;font-weight:500">向右滑動，看更多學員的完整分享 →</p>
+
+    <div class="testi-track">
+      <div class="testi-card">
+        <p class="testi-highlight">「Praful 的用心教學，展現出罕見的誠信、真實與臨在。能向 Praful 學習，就是向最頂尖的生命導師學習！」</p>
+        <p class="leading-relaxed mb-4 testi-quote" style="color:var(--text);white-space:pre-line">Praful 的家族排列導師培訓是一場極具深度滋養與蛻變的旅程，深深觸動了我的個人生命路徑，也療癒了比我原生家庭更大的家族系統。整個課程以一種自然的恩典狀態下展開，將系統排列的實務、引導的藝術，以及如何將這份工作溫柔地整合進日常生活中，完美地交織在一起。
+
+Praful 的用心教學，展現出罕見的誠信，真實且完整，以及臨在狀態。他以極大的關懷、謙遜，對待每個人，以及對這份工作本身展現出深切的尊重，穩固地守護著整個能量場域。
+
+在我們這個美好的團體中，每位夥伴的學習都是如此自然地發生。透過與彼此共享深刻的個人經驗，在一個感到安全、滋養且充滿寂靜深遠的氛圍中前行。
+
+對於這次培訓為我的生命帶來的洞見、成長以及重獲和諧的感知，我懷著無比的感激。我由衷地將這門課程推薦給每一位渴望深化自我探索旅程，或是想要培訓成為家族排列引導師的人。
+
+能向 Praful 學習，就是向最頂尖的生命導師學習！</p>
+        <p class="text-xs font-semibold" style="color:var(--navy)">David</p>
+        <p class="text-xs opacity-60">已退休的CEO／資深商業顧問・英國</p>
+      </div>
+
+      <div class="testi-card">
+        <p class="testi-highlight">「Praful 讓『仁慈』與『信任』重新回到我的生命中。這門課程的元素持續滋養並豐盛著我的生命體驗。」</p>
+        <p class="leading-relaxed mb-4 testi-quote" style="color:var(--text);white-space:pre-line">作為一名持續參與學習並實踐他「家族系統重建實驗室」的學員：
+
+Praful 讓「仁慈」與「信任」重新回到我的生命中。他引導我明白，生命中的每一片小小拼圖，在宇宙（生命場域）中都有其命定的正確序位。我們唯有用「心」才能將事情看得透徹；也唯有當我們坦然、真摯地接納那份「歸屬」的邀請時，才能看見生命的完整全貌。
+
+無論是在日常生活中還是在工作上，我都持續運用著這門課程的元素，而它也正源源不絕地滋養並豐盛著我的生命體驗。</p>
+        <p class="text-xs font-semibold" style="color:var(--navy)">Veronika Karlsen</p>
+        <p class="text-xs opacity-60">醫學博士／臨床精神科專科醫師・挪威</p>
+      </div>
+
+      <div class="testi-card">
+        <p class="testi-highlight">「這是我在個人生命與專業領域中所遇過最具轉化力的療癒工具，足以滋養你的一生！」</p>
+        <p class="leading-relaxed mb-4 testi-quote" style="color:var(--text);white-space:pre-line">經歷了 Praful 的「家族系統排列」訓練，是我在個人生命與專業領域中所遇過最具轉化力的療癒工具。透過這個深奧的過程去洞察關係動力的本質，為我生命的每一個領域帶來了徹底的解放。
+
+從中學到的核心原則徹底改變了我看生命的視角，它至今仍引導著我如何在每天的生活中尊重自己和他人，不再陷入自我犧牲、委曲求全、妥協或衝突的舊有循環。我由衷希望每個人都有機會上這門課，跟 Praful 學習，送給自己這份由內而外理解真正平安與和諧的禮物。
+
+我深深感激能有這個機會向 Praful 學習。對於身為人的生命經驗，以及陪伴人去經驗生命的這條路上，他擁有一種非凡的容器，承載了極致的深度、愛、關懷、精準、尊重與智慧。
+
+對於任何渴望在個人和職業生活中獲得持久蛻變、啟發性洞見與生命昇華與豐盛的朋友們：這個訓練課程絕對深具價值，足以滋養你的一生！</p>
+        <p class="text-xs font-semibold" style="color:var(--navy)">RHIAH Krista Kujat</p>
+        <p class="text-xs opacity-60">作家・洛杉磯</p>
+      </div>
+
+      <div class="testi-card">
+        <p class="testi-highlight">「他是一個散發著光芒的人；一位每個人都可以全然交付與信任的智者。」</p>
+        <p class="leading-relaxed mb-4 testi-quote" style="color:var(--text);white-space:pre-line">我與 Praful 的初次相遇是在 2020 年的奧修 Afroz 靜心中心。從見到他的第一眼起，我的心就開始強烈跳動：就像是我與他早就相識好幾輩子，像是一種靈魂的久別重逢。後來我陸續參與了他帶領的不同分享會，每一次的體驗都為我的生命帶來從根處徹底的改變。
+
+Praful 是一位非凡的存有。他有一顆無比寬廣、散發著光的心，裡面承載了無條件的愛與接納。在跟著他學習的過程中，我學會了相信自己，並穿越內心的恐懼。我在內在深處找到了靈魂久違的平靜，也對生命有了更深邃的理解與洞見。
+
+在 Praful 身邊，我可以完全卸下防備，毫無羞恥或恐懼地分享我所經歷的一切。這是我生命中的第一次，真切地感受到有人正溫柔地牽著我的手，讓我能夠安全地、毫無保留地傾訴一切。
+
+他是一個散發著光芒的人；一位每個人都可以全然交付與信任的智者。我全心全意、毫無保留地將他推薦給每一個人。</p>
+        <p class="text-xs font-semibold" style="color:var(--navy)">Despina</p>
+        <p class="text-xs opacity-60">奧修 Afroz 靜心中心負責人・希臘</p>
+      </div>
+
+      <div class="testi-card">
+        <p class="testi-highlight">「那份充滿整個房間的愛、你溫暖且閃耀的心、你引領的深度，觸動了我們所有人的心。」</p>
+        <p class="leading-relaxed mb-4 testi-quote" style="color:var(--text);white-space:pre-line">最親愛的 Praful。你來了，又走了，至今我們仍沉浸在震撼中，呆坐在這裡，對這非凡的一週驚嘆不已。我發現自己很難用言語來形容內心發生的觸動：那份充滿整個房間的愛、你溫暖且閃耀的心、你引領的深度，以及所有共同前行的靈魂們所展現出的勇氣與美麗。某種深遠的力量觸動了我們所有人的心。我不禁在想，這難道是什麼魔力？彷彿有一扇神秘的門，神藉此進入了你的心靈與靈魂最深處的交織之中，照亮了每一絲細線，並透過你的雙眼，散發出如此強烈而燦爛的慈愛之光。</p>
+        <p class="text-xs font-semibold" style="color:var(--navy)">丹麥 Risk 奧修靜心中心學員</p>
+        <p class="text-xs opacity-60">丹麥</p>
+      </div>
+
+      <div class="testi-card">
+        <p class="testi-highlight">「每當我處在他的場域中，我都感到無比安全、深深地被看見，並真摯地被關懷著。」</p>
+        <p class="leading-relaxed mb-4 testi-quote" style="color:var(--text);white-space:pre-line">我在 2022 年與 Praful 相遇，從那時起，陸陸續續參加了他的週末分享會和長期的培訓課程。
+
+他豐富的經驗結合了他溫柔的靈魂、謙虛的態度，以及極其細膩的敏感度，讓我毫無疑問地推薦他帶領的任何課程。每當我處在他的場域在他的臨在中，我都感到無比安全、深深地被看見，並且被真摯、真誠地關懷著。真的很感激我們能在生命中相遇。</p>
+        <p class="text-xs font-semibold" style="color:var(--navy)">Lily</p>
+        <p class="text-xs opacity-60">投資銀行助理・瑞士</p>
+      </div>
+
+      <div class="testi-card">
+        <p class="testi-highlight">「我首先遇見的是一個真實的『生命存有』，然後才是一位治療師與導師。」</p>
+        <p class="leading-relaxed mb-4 testi-quote" style="color:var(--text);white-space:pre-line">Praful 是我所遇過最了不起的人之一。
+
+過去幾年，我參加過許多不同的分享會和培訓課程，但與 Praful 的相遇，不論在個人生命還是職業生涯中，都帶來了極其深刻的意義與徹底性的轉化。
+
+最重要的是，我首先遇見的是一個真實的「生命存有」（Human being），一個活生生、有血有肉的「人」，然後才是一位治療師與導師。他是我所認識的人當中，擁有最寬廣心胸、罕見且卓越的人性關懷的人。
+
+在那些引導大家敞開心房的團體過程中，待在 Praful 身邊本身就是一種深深的啟發，讓我的內心注滿了希望與愛。
+
+他能透過純粹的愛、尊重、深度的臨在與謙遜，去觸動人心並引導真正的蛻變，這種能力讓我深受感動。
+
+作為我「家族系統排列」訓練課程的老師與導師，我有幸向他學習，並在他守護的神聖場域中，見證了自己和他人生命中那些改變命運的關鍵時刻。
+
+我由衷地希望，每一位正在尋求內在療癒或專業培訓的人，都有機會能親自體驗 Praful 的引導。他是如此地獨一無二。</p>
+        <p class="text-xs font-semibold" style="color:var(--navy)">Adam</p>
+        <p class="text-xs opacity-60">心理治療師／藝術家・以色列</p>
+      </div>
+
+      <div class="testi-card">
+        <p class="testi-highlight">「他的教學風格清晰、實用且通俗易懂，讓知識不僅抵達大腦，更能觸動人心。」</p>
+        <p class="leading-relaxed mb-4 testi-quote" style="color:var(--text);white-space:pre-line">參加 Praful 的培訓或靜心營，是一份給予心靈與靈魂滋養最好的禮物。過去幾年跟著他學習的旅程是一場深度的內在探索，不僅讓我學會更包容自己與他人不完美的人性，更引導我擁抱「信任」與對生命中的「未知」敞開。
+
+Praful 的工作融合了個人與專業層面，提供了一個充滿支持的能量場域，讓人得以在其中蛻變，活出更與心連結的生命。
+
+特別是家族排列培訓，為我對自己在這個世界中的定位（序位感）與自我價值感帶來了深刻的轉變，正向地轉化了我所有的人際關係，尤其是與我母親的關係。Praful 的課程兼顧了個人成長與專業技巧，提供了一個充滿支持的能量場域，讓人得以在其中蛻變，活出更與心連結的生命。
+
+不論是在解析人格動力、自我防衛機制，還是「家族系統排列」的原則，他的教學風格非常清晰、實用且通俗易懂。他以恰到好處的生命節奏進行引導，讓知識不僅抵達大腦，更能觸動人心。
+
+除了身為一位專業的引導者，Praful 是一個非常真實的人，他活出了自己所堅信並散播的價值，過著知行合一的生活，將自己的臨在奉獻給那些渴望與真實自我深度相遇的人，用他的專注去服務每一個人的蛻變。他具備一種把「深度」與「輕鬆」完美結合的能力，常常透過適時的幽默，創造出一個充滿溫暖、清晰和與心連結的空間。</p>
+        <p class="text-xs font-semibold" style="color:var(--navy)">Martina</p>
+        <p class="text-xs opacity-60">諮商師・義大利</p>
+      </div>
+
+      <div class="testi-card">
+        <p class="testi-highlight">「某些東西在我的生命深處沉澱了下來，生命能量開始以完全不同的方式流動。」</p>
+        <p class="leading-relaxed mb-4 testi-quote" style="color:var(--text);white-space:pre-line">我跟隨 Praful 學習超過 15 年，他的臨在與引導深深地陪伴著我的生命與成長。他擁有一種罕見的天賦：將高超專業的排列技巧、對人溫暖且真實的關懷、全然的專注與臨在，以及對人真誠的愛完美結合。
+
+與他在一起的感覺是如此安全、真實、踏實，且蛻變是如此的富有深度且深刻。
+
+兩年前我參加了他的家族排列培訓，這成為我內在成長歷程中真正的轉折點。在那次經驗之後，某些東西在我的生命深處沉澱了下來：不論是在我內心，還是在我的家族系統之中。從那份嶄新的內在自由出發，生命能量開始以完全不同的方式流動。我發現自己不僅有能力去創造一段健康、成熟的親密關係，並在事業發展上以一種感到對頻、和諧且自然的方式擴展。
+
+我對他的付出懷有深深的感激。他的課程完全是用心在帶領，切切實實地支持著人們朝向成熟、覺察、全然接納人性之美與生命擴展的方向成長。</p>
+        <p class="text-xs font-semibold" style="color:var(--navy)">Arianna Mukta Tidei</p>
+        <p class="text-xs opacity-60">靜心中心總經理／人資經理・義大利／希臘</p>
+      </div>
+
+      <div class="testi-card">
+        <p class="testi-highlight">「他會用無限的耐心、愛、信任與尊重，溫柔地引導你的生命旅程。」</p>
+        <p class="leading-relaxed mb-4 testi-quote" style="color:var(--text);white-space:pre-line">自 2009 年以來，我一直透過團體分享會與一對一諮商的方式跟隨 Praful 學習。在他的臨在與能量守護中，我總能感受到無比的安全感與深度的支持。Praful 是一位經驗豐富、技巧精湛且充滿慈悲的實踐者。他的智慧、慈悲以及「以心為本」的引導方式，讓我能夠安心地卸下防備，得以在其中全然敞開，這為我帶來了不可思議的療癒與蛻變。
+
+從我第一次見到 Praful 並完成我的第一個家族排列個案開始，我就深知自己想要持續跟隨他學習與成長。他對人類那份真摯的愛是如此清晰可感，不論人們來自哪種生活背景與階層，他都一視同仁地予以承接。在我的生命中，以及無數人的生命裡，他持續的指引是生命中一份極其珍貴的恩典與禮物。我由衷地推薦大家來體驗 Praful 的帶領，與 Praful 一同進行心靈工作。他會用無限的耐心、愛、信任與尊重，溫柔地引導你的生命旅程。</p>
+        <p class="text-xs font-semibold" style="color:var(--navy)">Karen Passalacqua</p>
+        <p class="text-xs opacity-60">瑜伽導師／家族排列引導師・紐約</p>
+      </div>
+
+      <div class="testi-card">
+        <p class="testi-highlight">「強烈、深刻，卻同時讓人感到無比安全、充滿愛，甚至有趣並充滿了幽默。」</p>
+        <p class="leading-relaxed mb-4 testi-quote" style="color:var(--text);white-space:pre-line">參加 Praful 的童年療癒分享會（Primal），帶給我極具變革性的療癒體驗。這是一趟深入潛意識的強烈旅程，也是一次靈魂的大洗滌；然而與此同時，它又是如此溫和、溫柔且充滿尊重的過程，讓我能夠帶著敞開的心去回顧我的家族歷史，去經驗那些痛苦與創傷，而不必再築起防衛的心牆。我終於對自己的源頭根脈、行為模式、內在創傷，以及我與父母、與自己的關係，獲得了清晰的洞見。
+
+這個過程固然強烈、深刻，卻同時讓人感到無比安全、充滿愛，甚至有趣並充滿了幽默。在那個與世隔絕、安靜的空間裡，一個擁有巨大支持能量的場域中，協助我將焦點完全回歸自己。這段旅程，不論是我作為女人、母親與妻子的個人成長道路上，還是在我作為治療師的專業發展中，這趟旅程都是我人生中非常關鍵的一步。</p>
+        <p class="text-xs font-semibold" style="color:var(--navy)">Federica</p>
+        <p class="text-xs opacity-60">身體與諮商治療師・義大利</p>
+      </div>
+
+      <div class="testi-card">
+        <p class="testi-highlight">「彷彿讓我在短短一週內完成了數年的療癒。Praful 真的是為這份神聖志業而生的人。」</p>
+        <p class="leading-relaxed mb-4 testi-quote" style="color:var(--text);white-space:pre-line">我從 2016 年開始進行個人的心理療癒，至今已經參加過全球 30 多個分享會。雖然這些課程都對我療癒「複雜性創傷後壓力症候群（C-PTSD）」有所幫助，但如果要選出最關鍵、最值得的一場，答案非常簡單：就是在瑞典 Baravara 靜心中心、由 Praful 帶領的童年療癒分享會（Primal）。
+
+他和他的專業團隊共同打造這段 6-7 天非常深刻且帶來了徹底轉變的旅程。它幫我療癒了拖延已久的頑固創傷，特別是讓我與自己的內在小孩重新建立了深層的連結，並去面對和理解他曾遭受的傷害與冷落。在一個感到完全安全、充滿支持的場域中，我終於能夠觸及、感受並釋放壓抑已久的憤怒、難過與悲傷；同時看清了童年創傷如何形成我後來的行為模式、進而影響我成年的生活，獲得了澄澈的明晰。而在這個進程中，學會對父母展現慈悲，並認出「他們當時已盡了最大的努力」，更是和解的核心關鍵。
+
+這個過程固然激烈且極具挑戰，但在 Praful 充滿智慧、同理、慈悲與愛的引導下，那種震撼，彷彿讓我在短短一週內完成了數年的療癒。Praful 真的天生就是做這行，是為這份神聖志業而生的人。正是經歷了這場分享會，我毅然決定將自己奉獻於助人的服務道路上。Praful 在我的心中將永遠佔有一個特殊的位置，我對他致上我最深的感激。</p>
+        <p class="text-xs font-semibold" style="color:var(--navy)">Jens</p>
+        <p class="text-xs opacity-60">整體教練／神經回饋治療師・丹麥</p>
+      </div>
+
+      <div class="testi-card">
+        <p class="testi-highlight">「在 Praful 的一對一個案中，我感到無比安全、被深度看見、理解，且從未感受過任何評判。」</p>
+        <p class="leading-relaxed mb-4 testi-quote" style="color:var(--text);white-space:pre-line">自 2019 年與 Praful 相遇以來，我陸續參與了他的分享會、「家族系統排列」引導師培訓課程，並定期接受他的一對一個人諮商。他不僅是一位卓越的團體帶領者，在一對一個案的工作中也同樣展現出強大的療癒力量：不論是實體還是線上。
+
+Praful 之所以是一位卓越的治療師，是因為他融合了溫暖、敞開且充滿愛的心、自己多年深厚的療癒經驗、他廣博的培訓資歷與對諸多療癒工具的精湛運用，以及他自身與靈性的深邃連結。
+
+他那種能夠自我退讓，讓更偉大的神聖力量引導著整個過程的能力，至今仍讓我深深感動並深感佩服。
+
+這些年來我所獲得的支持太珍貴了，是無法用價值衡量的。在 Praful 的一對一個案中，我感到無比安全、被深度看見、理解，且從未感受過任何評判。每一次個案結束，我都感受到對自身生命道途更澄澈的明晰、力量與回歸軌道的感激。我從他身上所學到的一切，也讓我成為一個更有能力支持自己客戶的教練和治療師，對此我深深感激。</p>
+        <p class="text-xs font-semibold" style="color:var(--navy)">J. Svolgaard</p>
+        <p class="text-xs opacity-60">整體療癒師・瑞士</p>
+      </div>
+
+      <div class="testi-card">
+        <p class="testi-highlight">「選擇 Praful，是我做過最正確的決定。」</p>
+        <p class="leading-relaxed mb-4 testi-quote" style="color:var(--text);white-space:pre-line">選擇 Praful，是我做過最正確的決定。我在幾年前做出這個選擇。當時我一直在尋找一位專業人士，他必須有能力包容一個人所有的優缺點與面貌，完全不帶任何評判，充滿尊重，並且能夠在生活最黑暗、最脆弱的時刻給予支持。在 Praful 身上，我完全找到了我所渴望的這一切。</p>
+        <p class="text-xs font-semibold" style="color:var(--navy)">Giulia</p>
+        <p class="text-xs opacity-60">語言治療師・義大利</p>
+      </div>
+
+      <div class="testi-card">
+        <p class="testi-highlight">「我看見了一種無比穩固且溫柔的臨在，以及一種罕見的、能夠溫柔承接並調節情感激盪的能力。」</p>
+        <p class="leading-relaxed mb-4 testi-quote" style="color:var(--text);white-space:pre-line">我與 Praful 相識將近14年，在我生命的各個不同階段中，他一直是我極為重要的引路人：無論是引領我處理與自我的關係、探索情感生活、與我的原生家庭達成深刻的和解，還是為我身為一名生命教練的道途給予指引。在那些生命面臨巨大的情感脆弱的時刻，我總能感受到他極致的臨在與深沉的陪伴。
+
+我們的初次相遇是一場我預約的線上個案，那次體驗對我來說深具意義。就在那一刻，我清晰地感受到他在個人生命與專業領域上，都將成為我極其重要的典範。這段關係之所以能夠延續至今，正是因為他始終以無比的尊重守護著人際與專業之間的界線；他擁有強大的感知與洞察力，卻從不強加干涉，也從不逾越任何當時我所能承載的極限。
+
+無論是我與他進行的一對一個案，還是我觀察他帶領他人時的狀態，我都看見了一種無比穩固且溫柔的臨在，以及一種罕見的、能夠溫柔承接並調節情感激盪的能力。我從未在他身上看過任何的說教或強加於他人身上的建議，相反的，他所提供的是一種全然的陪伴，去支持每個人發現自己內在的各種可能性，並擴張與鍛鍊自己安住於當下的能力。我對我們共同走過的這段道途，以及它在我生命中所帶來的一切改變與豐盛，致上最深切的感激。</p>
+        <p class="text-xs font-semibold" style="color:var(--navy)">Tyler</p>
+        <p class="text-xs opacity-60">生命教練・義大利</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══ QUOTE BANNER ══ -->
+<section style="background:var(--navy)" class="py-20 px-6 text-center text-white">
+  <div class="max-w-2xl mx-auto" style="position:relative">
+    <div style="font-size:5rem;line-height:1;color:var(--blue);opacity:.25;font-family:Georgia,serif;position:absolute;top:-1.5rem;left:-1rem;user-select:none">"</div>
+    <p class="font-light italic leading-loose" style="font-size:clamp(.95rem,1.8vw,1.1rem);color:rgba(255,255,255,.9);letter-spacing:.02em;position:relative;z-index:1">
+      成熟並不代表你總是樂於與人保持連結。<br><br>
+      成熟是：也許你我之間有些事情不太對勁，而我需要先退開一下——<br>
+      不是退到讓連結斷裂的距離，而是退到一個足以讓我喘口氣、感覺自己的界線，<br>
+      同時仍然把你放在心裡的位置。
+    </p>
+    <div style="font-size:5rem;line-height:1;color:var(--blue);opacity:.25;font-family:Georgia,serif;position:absolute;bottom:-3rem;right:-1rem;user-select:none">"</div>
+    <p class="tracking-[.25em] uppercase mt-8 opacity-40" style="font-size:.75rem;position:relative;z-index:1">— Praful</p>
+  </div>
+</section>
+
+<!-- ══ INFO ══ -->
+<section class="py-20 px-6" style="background:var(--off)">
+  <div class="max-w-2xl mx-auto">
+    <h2 class="sh mb-2">分享會資訊</h2>
+    <span class="sh-line mb-10"><span class="sh-line-dot"></span></span>
+    <div style="border:1px solid var(--light);border-radius:3px;overflow:hidden">
+      <div class="info-row flex gap-5 items-start p-5">
+        <span class="flex-shrink-0 text-base w-6 text-center" style="color:var(--blue)">💎</span>
+        <div>
+          <p class="text-xs font-semibold tracking-widest uppercase mb-1" style="color:var(--navy)">日期</p>
+          <p class="text-sm" style="color:var(--text)">9月2日（週三）– 9月6日（週日）</p>
+        </div>
+      </div>
+      <div class="info-row flex gap-5 items-start p-5">
+        <span class="flex-shrink-0 text-base w-6 text-center" style="color:var(--blue)">💎</span>
+        <div>
+          <p class="text-xs font-semibold tracking-widest uppercase mb-1" style="color:var(--navy)">地點</p>
+          <p class="text-sm" style="color:var(--text)">兆基文教大樓</p>
+          <p class="text-xs mt-0.5" style="color:var(--text)">台北市松山區南京東路四段120巷11號5樓</p>
+          <a href="https://maps.app.goo.gl/k3WLLQ64zWUbL2Ki6" target="_blank"
+             class="text-xs mt-1.5 inline-block hover:underline" style="color:var(--blue)">在地圖上查看 →</a>
+        </div>
+      </div>
+      <div class="info-row flex gap-5 items-start p-5">
+        <span class="flex-shrink-0 text-base w-6 text-center" style="color:var(--blue)">💎</span>
+        <div>
+          <p class="text-xs font-semibold tracking-widest uppercase mb-1" style="color:var(--navy)">語言</p>
+          <p class="text-sm" style="color:var(--text)">英文主講，提供中文口譯</p>
+        </div>
+      </div>
+      <div class="info-row flex gap-5 items-start p-5">
+        <span class="flex-shrink-0 text-base w-6 text-center" style="color:var(--blue)">💎</span>
+        <div>
+          <p class="text-xs font-semibold tracking-widest uppercase mb-1" style="color:var(--navy)">先備條件</p>
+          <p class="text-sm" style="color:var(--text)">無需任何先備知識或經驗</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ VIDEO 2 + QUOTE BANNER ══ -->
+<section style="background:var(--navy)" class="py-20 px-6 text-white">
+  <div class="max-w-4xl mx-auto grid md:grid-cols-2 gap-10 items-center">
+    <div class="text-center md:text-left order-2 md:order-1" style="position:relative">
+      <div style="font-size:5rem;line-height:1;color:var(--blue);opacity:.25;font-family:Georgia,serif;user-select:none">"</div>
+      <p class="font-light italic leading-loose" style="font-size:clamp(.95rem,1.8vw,1.1rem);color:rgba(255,255,255,.9);letter-spacing:.02em;position:relative;z-index:1;margin-top:-1.5rem">
+        這是一個踏入臨在、深度與蛻變的空間。<br><br>
+        在此，誠摯邀請您沉浸於浩瀚的理解之海，每一縷波濤都承載著永恆真理的耳語。<br>
+        在溫柔的引導下，您將深入自身存在的深處。<br>
+        在這片空間 洞見自然湧現，如同陽光穿透水面，帶來意識蛻變的可能。<br>
+        這並非追求更多，而是洞察更多。<br>
+        回歸本源，回歸您內心深處始終存在的本質。<br><br>
+        歡迎你！
+      </p>
+      <p class="tracking-[.25em] uppercase mt-8 opacity-40" style="font-size:.75rem;position:relative;z-index:1">— Praful</p>
+    </div>
+    <div class="mx-auto order-1 md:order-2" style="max-width:336px;width:100%">
+      <div style="position:relative;padding-top:177.78%;border-radius:12px;overflow:hidden;box-shadow:0 8px 30px rgba(0,0,0,.35)">
+        <iframe src="https://www.youtube.com/embed/8hbLSlkDwLQ"
+          style="position:absolute;top:0;left:0;width:100%;height:100%;border:0"
+          title="YouTube video"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          allowfullscreen></iframe>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ CTA ══ -->
+<section id="apply" class="cta-dark star-field py-24 px-6 text-center text-white">
+  <span class="star-bright"></span>
+  <span class="star-milkyway"></span>
+  <div class="max-w-xl mx-auto">
+    <p class="text-xs tracking-[.3em] uppercase mb-5 opacity-40">下一步</p>
+    <h2 class="sh mb-2" style="color:white">想知道更多嗎？</h2>
+    <span class="sh-line mx-auto mb-8"><span class="sh-line-dot" style="background:var(--blue-lt)"></span></span>
+    <p class="text-sm mb-6 leading-loose opacity-70">填寫表單，我們團隊的專人將與你聯繫。</p>
+    <p class="text-sm mb-10 leading-loose opacity-60">
+      在這次對話中，你將收到關於家族系統排列分享會的所有詳細資訊，包括課程內容以及你可能有的任何問題之解答。<br><br>
+      若你選擇參與這場分享會，我們將以一場個人訪談開始這段歷程，探索你生命中的關鍵面向。這能幫助我們確保從一開始就能完整支持你，並為這趟轉化之旅創造一個安全、滋養的環境。
+    </p>
+    <div class="flex flex-col sm:flex-row gap-4 justify-center">
+      <a href="signup.html" class="btn btn-blue px-10 py-4">立即填寫報名表</a>
+      <a href="https://line.me/ti/p/~jenniecnho" target="_blank" rel="noopener" class="btn btn-ow  px-10 py-4">聯絡專人了解更多</a>
+    </div>
+  </div>
+</section>
+
+<!-- ══ FAQ ══ -->
+<section id="faq" class="py-24 px-6" style="background:var(--off)">
+  <div class="max-w-2xl mx-auto">
+    <h2 class="sh mb-2">常見問題</h2>
+    <span class="sh-line mb-10"><span class="sh-line-dot"></span></span>
+    <div>
+      <details class="faq-item py-6">
+        <summary class="flex justify-between items-center gap-4 hover:opacity-70 transition">
+          <span class="text-sm" style="color:var(--navy)">什麼是家族系統排列？</span>
+          <span class="faq-arrow text-xl flex-shrink-0" style="color:var(--blue)">+</span>
+        </summary>
+        <p class="mt-4 text-sm leading-loose" style="color:var(--text)">家族系統排列是一個深奧的療癒工具，用來探索那些形塑我們關係與行為的隱形模式。它幫助我們揭開家族系統與生命中隱藏的動力——這些動力往往根植於過去好幾個世代——並邀請我們釋放那些已不再支持我們的模式，讓生命重新恢復平衡與和諧。</p>
+      </details>
+      <details class="faq-item py-6">
+        <summary class="flex justify-between items-center gap-4 hover:opacity-70 transition">
+          <span class="text-sm" style="color:var(--navy)">它是如何進行的？</span>
+          <span class="faq-arrow text-xl flex-shrink-0" style="color:var(--blue)">+</span>
+        </summary>
+        <p class="mt-4 text-sm leading-loose" style="color:var(--text)">在團體課程中，參與者會代表彼此家族系統中的成員，形成一幅關係動力的「生命地圖」。在 Praful 的引導下，團體會一起探索那些未被說出口的張力、未被解決的情緒，以及隱藏的盲目忠誠。</p>
+      </details>
+      <details class="faq-item py-6">
+        <summary class="flex justify-between items-center gap-4 hover:opacity-70 transition">
+          <span class="text-sm" style="color:var(--navy)">在分享會中，我會有自己的個人排列嗎？</span>
+          <span class="faq-arrow text-xl flex-shrink-0" style="color:var(--blue)">+</span>
+        </summary>
+        <div class="mt-4 text-sm leading-loose" style="color:var(--text)">
+          <p>不是每一位參與者都會進行個人的排列。團體歷程是以集體的方式運作，許多人會發現，見證並參與他人的排列，同樣能為自己的生命旅程帶來深刻的洞見與療癒。</p>
+          <p class="mt-3">這項工作奠基於「愛的三大原則」——歸屬、序位、施與受的平衡，幫助參與者從「盲目的愛」（無意識模式）轉向「有意識（成熟）的愛」（自由與真實）。</p>
+        </div>
+      </details>
+      <details class="faq-item py-6">
+        <summary class="flex justify-between items-center gap-4 hover:opacity-70 transition">
+          <span class="text-sm" style="color:var(--navy)">參加這個分享會需要任何療癒經驗嗎？</span>
+          <span class="faq-arrow text-xl flex-shrink-0" style="color:var(--blue)">+</span>
+        </summary>
+        <p class="mt-4 text-sm leading-loose" style="color:var(--text)">不需要任何療癒經驗。無論這是你第一次接觸個人成長，或你過去曾參加過類似課程，這場分享會都會依照你目前所在的生命階段與旅程，支持你從當下開始。</p>
+      </details>
+      <details class="faq-item py-6">
+        <summary class="flex justify-between items-center gap-4 hover:opacity-70 transition">
+          <span class="text-sm" style="color:var(--navy)">這個分享會會使用哪些語言？</span>
+          <span class="faq-arrow text-xl flex-shrink-0" style="color:var(--blue)">+</span>
+        </summary>
+        <p class="mt-4 text-sm leading-loose" style="color:var(--text)">這場分享會將以英文進行，現場即時中文口譯。</p>
+      </details>
+      <details class="faq-item py-6" style="border-bottom:none">
+        <summary class="flex justify-between items-center gap-4 hover:opacity-70 transition">
+          <span class="text-sm" style="color:var(--navy)">分享會結束後會發生什麼？</span>
+          <span class="faq-arrow text-xl flex-shrink-0" style="color:var(--blue)">+</span>
+        </summary>
+        <p class="mt-4 text-sm leading-loose" style="color:var(--text)">分享會結束後，你將帶著所需的工具與支持，繼續整合你在過程中獲得的洞見與療癒。根據你的需要，也可能會提供後續資源與支持系統。</p>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- ══ FOOTER ══ -->
+<footer class="py-10 px-6 text-center text-xs" style="background:var(--navy);color:rgba(255,255,255,.4)">
+  <p>家族系統排列 with Carlo Praful Saracino・台北 2026年9月</p>
+</footer>
+
+<!-- ══ STICKY BAR ══ -->
+<div id="sticky" class="fixed bottom-0 w-full py-3 px-6 z-40 hidden">
+  <div class="max-w-5xl mx-auto flex items-center justify-end gap-4">
+    <div class="flex gap-3 flex-1 sm:flex-initial justify-end">
+      <a href="signup.html" class="btn btn-blue px-6 py-2">立即報名</a>
+      <a href="https://line.me/ti/p/~jenniecnho" target="_blank" rel="noopener" class="btn btn-ow  px-6 py-2">聯絡專人了解更多</a>
+    </div>
+  </div>
+</div>
+
+<script>
+  const nav = document.getElementById('nav');
+  window.addEventListener('scroll', () => nav.classList.toggle('scrolled', window.scrollY > 40));
+
+  const sticky = document.getElementById('sticky');
+  window.addEventListener('scroll', () => sticky.classList.toggle('hidden', window.scrollY < window.innerHeight * .8));
+</script>
+</body>
+</html>
